@@ -1,0 +1,153 @@
+﻿@page
+@using HomeworkAspNet2Task2.Models;
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+<form id="myForm" method="get">
+	<div class="p-5">
+		<div class="mb-3">
+			<label>Shape Name</label>
+			<input type="text" class="form-control" name="shapeName" value="@Request.Query["shapeName"]">
+		</div>
+		<div class="mb-3">
+			<label>Shape Type</label>
+			<select class="form-select" aria-label="Default select example" id="shapeTypeSelect" name="shapeTypeSelect" asp-for="ShapeTypeSelect">
+				<option value="1" selected>Shapes</option>
+				<option value="2">Rectangle</option>
+				<option value="3">Triangle</option>
+				<option value="4">Circle</option>
+			</select>
+		</div>
+		<button type="submit" class="btn bg-info" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Search</span>
+		</button>
+		<button class="btn bg-secondary" style="width:150px">
+			<a asp-page="/add" class="text-light fw-bold fst-italic">Add</a>
+		</button>
+	</div>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>
+					Id
+				</th>
+				<th>
+					Name
+				</th>
+				<th id="rectX" style="display: none;">
+					X
+				</th>
+				<th id="rectY" style="display: none;">
+					Y
+				</th>
+				<th id="triX" style="display: none;">
+					X
+				</th>
+				<th id="triY" style="display: none;">
+					Y
+				</th>
+				<th id="triZ" style="display: none;">
+					Z
+				</th>
+				<th id="circR" style="display: none;">
+					Radius
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Shapes)
+			{
+				<tr>
+					<th>
+						@item.Id
+					</th>
+					<th>
+						@item.Name
+					</th>
+					<th class="rectXData shapeData" style="display: none">
+						@if (item is Rectangle rectX)
+						{
+							@rectX.X
+						}
+					</th>
+					<th class="rectYData shapeData" style="display: none">
+						@if (item is Rectangle rectY)
+						{
+							@rectY.Y
+						}
+					</th>
+					<th class="triXData shapeData" style="display: none">
+						@if (item is Triangle triX)
+						{
+							@triX.X
+						}
+					</th>
+					<th class="triYData shapeData" style="display: none">
+						@if (item is Triangle triY)
+						{
+							@triY.X
+						}
+					</th>
+					<th class="triZData shapeData" style="display: none">
+						@if (item is Triangle triZ)
+						{
+							@triZ.Z
+						}
+					</th>
+					<th class="circRData shapeData" style="display: none">
+						@if (item is Circle circR)
+						{
+							@circR.Radius
+						}
+					</th>
+				</tr>
+			}
+		</tbody>
+	</table>
+</form>
+
+<script>
+	// Ensure the DOM is fully loaded before running the script
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get the shape type select element
+		const shapeTypeSelect = document.getElementById("shapeTypeSelect");
+
+		// Function to update cell visibility based on the selected value
+		function updateCellVisibility(selectedValue) {
+			// Hide or display elements based on the selected value
+			document.getElementById("rectX").style.display = selectedValue === "2" ? "table-cell" : "none";
+			document.getElementById("rectY").style.display = selectedValue === "2" ? "table-cell" : "none";
+			document.getElementById("triX").style.display = selectedValue === "3" ? "table-cell" : "none";
+			document.getElementById("triY").style.display = selectedValue === "3" ? "table-cell" : "none";
+			document.getElementById("triZ").style.display = selectedValue === "3" ? "table-cell" : "none";
+			document.getElementById("circR").style.display = selectedValue === "4" ? "table-cell" : "none";
+
+			// Use forEach for element collections
+			var shapeDataElements = document.querySelectorAll(".shapeData");
+			shapeDataElements.forEach(function (element) {
+				element.style.display =
+					(element.classList.contains("rectXData") && selectedValue === "2") ||
+					(element.classList.contains("rectYData") && selectedValue === "2") ||
+					(element.classList.contains("triXData") && selectedValue === "3") ||
+					(element.classList.contains("triYData") && selectedValue === "3") ||
+					(element.classList.contains("triZData") && selectedValue === "3") ||
+					(element.classList.contains("circRData") && selectedValue === "4")
+						? "table-cell"
+						: "none";
+			});
+		}
+
+		// Add an event listener to detect changes in the selected value
+		shapeTypeSelect.addEventListener("change", function () {
+			var selectedValue = shapeTypeSelect.value;
+			updateCellVisibility(selectedValue);
+		});
+
+		// Initial setup when the page loads
+		var initialSelectedValue = shapeTypeSelect.value;
+		updateCellVisibility(initialSelectedValue);
+	});
+</script>

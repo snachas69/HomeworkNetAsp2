@@ -1,0 +1,98 @@
+﻿@page
+@model HomeworAspNet2Task1.Pages.AddModel
+@{
+}
+
+<div class=" row pb-2">
+	<h1 class="text-danger fw-bold">Input The New Animal's Data</h1>
+</div>
+
+<form method="post">
+	<input type="hidden" asp-for="Type" id="animalType" name="Type" value="1" />
+
+	<div class="border p-3 mt-4">
+		<div class="mb-3">
+			<label>Select Animal Type</label><br />
+			<select class="form-select" aria-label="Default select example" id="animalTypeSelect" name="Type">
+				<option value="1">Dogs</option>
+				<option value="2">Cats</option>
+				<option value="3">Mice</option>
+				<option value="4">Spiders</option>
+			</select>
+		</div>
+
+		<div class="mb-3" id="dogAnimalFields">
+			<label>Name</label><input asp-for="Dog.Name" type="text" class="form-control"/>
+			<label>Spicies</label><input asp-for="Dog.Spicies" type="text" class="form-control"/>
+			<label>Age</label><input asp-for="Dog.Age" type="text" class="form-control"/>
+			<label>Sound</label><input asp-for="Dog.Sound" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3" id="catAnimalFields" style="display: none;">
+			<label>Name</label><input asp-for="Cat.Name" type="text" class="form-control"/>
+			<label>Spicies</label><input asp-for="Cat.Spicies" type="text" class="form-control"/>
+			<label>Age</label><input asp-for="Cat.Age" type="text" class="form-control"/>
+			<label>Sound</label><input asp-for="Cat.Sound" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3" id="mouseAnimalFields" style="display: none;">
+			<label>Name</label><input asp-for="Mouse.Name" type="text" class="form-control"/>
+			<label>Spicies</label><input asp-for="Mouse.Spicies" type="text" class="form-control"/>
+			<label>Age</label><input asp-for="Mouse.Age" type="text" class="form-control"/>
+			<label>Sound</label><input asp-for="Mouse.Sound" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3" id="spiderAnimalFields" style="display: none;">
+			<label>Name</label><input asp-for="Spider.Name" type="text" class="form-control"/>
+			<label>Spicies</label><input asp-for="Spider.Spicies" type="text" class="form-control"/>
+			<label>Age</label><input asp-for="Spider.Age" type="text" class="form-control"/>
+			<label>Sound</label><input asp-for="Spider.Sound" type="text" class="form-control"/>
+		</div>
+
+		<div class="mb-3" id="dogFields">
+			<label>Trained For</label><input asp-for="Dog.TrainedFor" type="text" class="form-control" />
+		</div>
+
+		<div class="mb-3" id="spiderFields" style="display: none;">
+			<label>Is Poisonous</label><input asp-for="Spider.IsPoisonous" type="text" class="form-control" />
+		</div>
+
+		<button type="submit" class="btn bg-info" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Add</span>
+		</button>
+		<button type="submit" class="btn bg-dark" style="width:150px">
+			<a asp-page="Index" class="text-light fw-bold fst-italic">Back</a>
+		</button>
+	</div>
+</form>
+
+<script>
+	document.getElementById("animalTypeSelect").addEventListener("change", function () {
+		var selectedValue = this.value;
+
+		document.getElementById("animalType").value = selectedValue;
+
+		//Hide all elements by default
+		document.getElementById("dogAnimalFields").style.display = "none";
+		document.getElementById("dogFields").style.display = "none";
+		document.getElementById("catAnimalFields").style.display = "none";
+		document.getElementById("mouseAnimalFields").style.display = "none";
+		document.getElementById("spiderAnimalFields").style.display = "none";
+		document.getElementById("spiderFields").style.display = "none";
+
+		switch(selectedValue)
+		{
+			case "1":
+				document.getElementById("dogAnimalFields").style.display = "block";
+				document.getElementById("dogFields").style.display = "block";
+				break;
+			case "2":
+				document.getElementById("catAnimalFields").style.display = "block";
+				break;
+			case "3":
+				document.getElementById("mouseAnimalFields").style.display = "block";
+				break;
+			case "4":
+				document.getElementById("spiderAnimalFields").style.display = "block";
+				document.getElementById("spiderFields").style.display = "block";
+				break;
+		}
+	});
+</script>

@@ -1,0 +1,91 @@
+﻿@page
+@model HomeworkAspNet2Task2.Pages.AddModel
+@{
+}
+
+
+<div class=" row pb-2">
+	<h1 class="text-danger fw-bold">Input The New Shape's Data</h1>
+</div>
+
+<form method="post">
+	<input type="hidden" asp-for="Type" id="shapeType" name="Type" value="1" />
+
+	<div class="border p-3 mt-4">
+		<div class="mb-3">
+			<label>Select Shape Type</label><br />
+			<select class="form-select" aria-label="Default select example" id="shapeTypeSelect" name="Type">
+				<option value="1">Rectangle</option>
+				<option value="2">Triangle</option>
+				<option value="3">Circle</option>
+			</select>
+		</div>
+
+		<div class="mb-3" id="rectangleShapeFields">
+			<label>Name</label><input asp-for="Rectangle.Name" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3" id="triangleShapeFields" style="display: none;">
+			<label>Name</label><input asp-for="Triangle.Name" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3" id="circleShapeFields" style="display: none;">
+			<label>Name</label><input asp-for="Circle.Name" type="text" class="form-control"/>
+		</div>
+
+		<div class="mb-3" id="rectangleFields">
+			<label>X</label><input asp-for="Rectangle.X" type="text" class="form-control" />
+			<label>Y</label><input asp-for="Rectangle.Y" type="text" class="form-control" />
+		</div>
+
+		<div class="mb-3" id="triangleFields" style="display: none;">
+			<label>X</label><input asp-for="Triangle.X" type="text" class="form-control" />
+			<label>Y</label><input asp-for="Triangle.Y" type="text" class="form-control" />
+			<label>Z</label><input asp-for="Triangle.Z" type="text" class="form-control" />
+		</div>
+
+		<div class="mb-3" id="circleFields" style="display: none;">
+			<label>Radius</label><input asp-for="Circle.Radius" type="text" class="form-control" />
+		</div>
+
+		<button type="submit" class="btn bg-info" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Add</span>
+		</button>
+		<button type="submit" class="btn bg-dark" style="width:150px">
+			<a asp-page="Index" class="text-light fw-bold fst-italic">Back</a>
+		</button>
+	</div>
+</form>
+
+<script>
+	document.getElementById("shapeTypeSelect").addEventListener("change", function () {
+		var selectedValue = this.value;
+
+		console.log(selectedValue);
+
+		document.getElementById("shapeType").value = selectedValue;
+
+		//Hide all elements by default
+		document.getElementById("rectangleShapeFields").style.display = "none";
+		document.getElementById("rectangleFields").style.display = "none";
+		document.getElementById("triangleShapeFields").style.display = "none";
+		document.getElementById("triangleFields").style.display = "none";
+		document.getElementById("circleShapeFields").style.display = "none";
+		document.getElementById("circleFields").style.display = "none";
+
+		switch(selectedValue)
+		{
+			case "1":
+				document.getElementById("rectangleShapeFields").style.display = "block";
+				document.getElementById("rectangleFields").style.display = "block";
+				break;
+			case "2":
+				document.getElementById("triangleShapeFields").style.display = "block";
+				document.getElementById("triangleFields").style.display = "block";
+				break;
+			case "3":
+				document.getElementById("circleShapeFields").style.display = "block";
+				document.getElementById("circleFields").style.display = "block";
+				break;
+		}
+	});
+</script>
+

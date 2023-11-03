@@ -1,0 +1,128 @@
+﻿@page
+@using HomeworkNetAsp2.Models;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="get">
+	<div class="p-5">
+		<div class="mb-3">
+			<label>Animal Name</label>
+			<input type="text" class="form-control" name="animalName" value="@Request.Query["animalName"]">
+		</div>
+		<div class="mb-3">
+			<label>Animal Type</label>
+			<select class="form-select" aria-label="Default select example" id="animalTypeSelect" name="animalTypeSelect">
+				<option value="1" selected>Animals</option>
+				<option value="2">Dogs</option>
+				<option value="3">Cats</option>
+				<option value="4">Mice</option>
+				<option value="5">Spiders</option>
+			</select>
+		</div>
+		<button type="submit" class="btn bg-info" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Search</span>
+		</button>
+		<button class="btn bg-secondary" style="width:150px">
+			<a asp-page="/add" class="text-light fw-bold fst-italic">Add</a>
+		</button>
+	</div>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>
+					Id
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Spicies
+				</th>
+				<th>
+					Age
+				</th>
+				<th>
+					Sound
+				</th>
+				<th id="trainedFor" style="display: none;">
+					Trained For
+				</th>
+				<th id="isPoisonous" style="display: none;">
+					Is Poisonous
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var item in Model.Animals)
+			{
+				<tr>
+					<th>
+						@item.Id
+					</th>
+					<th>
+						@item.Name
+					</th>
+					<th>
+						@item.Spicies
+					</th>
+					<th>
+						@item.Age
+					</th>
+					<th>
+						@item.Sound
+					</th>
+					<th class="trainedForData animalData" style="display: none">
+						@if(item is Dog dog)
+						{
+							@dog.TrainedFor
+						}
+					</th>
+					<th class="isPoisonousData animalData" style="display: none">
+						@if(item is Spider spider)
+						{
+							@spider.IsPoisonous
+						}
+					</th>
+				</tr>
+			}
+		</tbody>
+	</table>
+</form>
+
+<script>
+	// Ensure the DOM is fully loaded before running the script
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get the shape type select element
+		const animalTypeSelect = document.getElementById("animalTypeSelect");
+
+		// Function to update cell visibility based on the selected value
+		function updateCellVisibility(selectedValue) {
+			// Hide or display elements based on the selected value
+			document.getElementById("trainedFor").style.display = selectedValue === "2" ? "table-cell" : "none";
+			document.getElementById("isPoisonous").style.display = selectedValue === "5" ? "table-cell" : "none";
+
+			// Use forEach for element collections
+			var animalDataElements = document.querySelectorAll(".animalData");
+			animalDataElements.forEach(function (element) {
+				element.style.display =
+					(element.classList.contains("trainedForData") && selectedValue === "2") ||
+					(element.classList.contains("isPoisonousData") && selectedValue === "5")
+						? "table-cell"
+						: "none";
+			});
+		}
+
+		// Add an event listener to detect changes in the selected value
+		animalTypeSelect.addEventListener("change", function () {
+			var selectedValue = animalTypeSelect.value;
+			updateCellVisibility(selectedValue);
+		});
+
+		// Initial setup when the page loads
+		var initialSelectedValue = animalTypeSelect.value;
+		updateCellVisibility(initialSelectedValue);
+	});
+</script>
