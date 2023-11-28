@@ -1,4 +1,5 @@
 ﻿using HomeworkAspNet2Task2.Models;
+using HomeworkAspNet2Task2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,35 +9,21 @@ namespace HomeworkAspNet2Task2.Pages
 	{
 		private readonly ILogger<IndexModel> _logger;
 		private ApplicationDbContext _context;
+		private ShapeService _shapeService;
 
 		[BindProperty] 
 		public List<Shape> Shapes { get; set; } = new();
 
-		[BindProperty(SupportsGet = true)] 
-		public int? ShapeTypeSelect { get; set; }
-
-		public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
+		public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context, ShapeService shapeService)
 		{
 			_logger = logger;
 			_context = context;
+			_shapeService = shapeService;
 		}
 
-		public void OnGet(string? shapeName)
+		public void OnGet(string? shapeName, int shapeTypeSelect)
 		{
-			IQueryable<Shape> shapes = _context.Shapes;
-
-			if (!string.IsNullOrEmpty(shapeName))
-			{
-				shapeName = shapeName.ToLower();
-				shapes = shapes.Where(s => s.Name.Contains(shapeName));
-			}
-
-			if (ShapeTypeSelect.HasValue && ShapeTypeSelect != 1)
-			{
-				shapes = shapes.Where(s => s.ShapeType == ShapeTypeSelect);
-			}
-
-			Shapes = shapes.ToList();
+			Shapes = _shapeService.GetShapes(_context, shapeName, shapeTypeSelect);
 		}
 	}
 }

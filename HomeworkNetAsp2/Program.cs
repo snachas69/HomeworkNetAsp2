@@ -1,3 +1,4 @@
+using HomeworAspNet2Task1.Services;
 using HomeworkNetAsp2;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(o =>
 	o.UseSqlServer("Server=DESKTOP-SC48M2E\\SQLEXPRESS;Database=HomeworkAspNet2;Trusted_Connection=True;TrustServerCertificate=True")); // Use the configuration
+
+var animalService = new AnimalService();
+builder.Services.AddSingleton(animalService);
 
 var app = builder.Build();
 

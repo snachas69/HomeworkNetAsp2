@@ -2,14 +2,14 @@
 @using HomeworkNetAsp2.Models;
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "Home page";
 }
 
 <form method="get">
 	<div class="p-5">
 		<div class="mb-3">
 			<label>Animal Name</label>
-			<input type="text" class="form-control" name="animalName" value="@Request.Query["animalName"]">
+			<input type="text" class="form-control" name="animalName">
 		</div>
 		<div class="mb-3">
 			<label>Animal Type</label>

@@ -1,4 +1,5 @@
 using HomeworkAspNet2Task2;
+using HomeworkAspNet2Task2.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
 	o.UseSqlServer("Server=DESKTOP-SC48M2E\\SQLEXPRESS;Database=HomeworkAspNet2;Trusted_Connection=True;TrustServerCertificate=True")); // Use the configuration
-
+var shapeService = new ShapeService();
+builder.Services.AddSingleton(shapeService);
 
 var app = builder.Build();
 
